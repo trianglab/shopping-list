@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useParams, Link } from "react-router-dom";
 import EditItemModal from "../components/Modals/EditItemModal";
+import { getListById, addItem as apiAddItem, toggleItem as apiToggleItem, deleteItem as apiDeleteItem } from "../api";
 
 export default function ItemsListPage() {
   const { listId } = useParams();
@@ -9,44 +10,26 @@ export default function ItemsListPage() {
   const [showRenameInput, setShowRenameInput] = useState(false);
   const currentUserId = "user-1";
 
-  // Mock list data
-  const listsData = {
-    "1": {
-      name: "Groceries",
-      ownerId: "user-1",
-      members: [
-        { userId: "user-1", name: "Alex", role: "owner" },
-        { userId: "user-2", name: "Jane", role: "member" }
-      ]
-    },
-    "2": {
-      name: "Hardware Store",
-      ownerId: "user-2",
-      members: [
-        { userId: "user-2", name: "Jane", role: "owner" },
-        { userId: "user-1", name: "Alex", role: "member" }
-      ]
-    },
-    "3": {
-      name: "Party Supplies",
-      ownerId: "user-1",
-      members: [
-        { userId: "user-1", name: "Alex", role: "owner" }
-      ]
-    }
-  };
-
-  const listData = listsData[listId];
+  const [listData, setListData] = useState(null);
   const isOwner = listData?.ownerId === currentUserId;
 
-  const [currentListName, setCurrentListName] = useState(listData?.name || "Items");
+  const [currentListName, setCurrentListName] = useState("Items");
   const [filter, setFilter] = useState("all"); // "all", "unresolved", "resolved"
+  const [items, setItems] = useState([]);
 
-  const [items, setItems] = useState([
-    { id: 1, name: "Milk", quantity: 2, done: false },
-    { id: 2, name: "Bread", quantity: 1, done: true },
-    { id: 3, name: "Apples", quantity: 6, done: false }
-  ]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getListById(listId);
+        setListData(data);
+        setCurrentListName(data.name);
+        // Map backend shape {title, quantity, isCompleted} to local {name, quantity, done}
+        setItems((data.items || []).map(i => ({ id: i.id, name: i.title, quantity: i.quantity, done: !!i.isCompleted })));
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [listId]);
 
   const filteredItems = items.filter((item) => {
     if (filter === "unresolved") return !item.done;
@@ -54,21 +37,33 @@ export default function ItemsListPage() {
     return true;
   });
 
-  const handleDelete = (id) => {
-    setItems((cur) => cur.filter((i) => i.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await apiDeleteItem(listId, id);
+      setItems((cur) => cur.filter((i) => i.id !== id));
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const toggleDone = (id) => {
-    setItems((cur) => cur.map((i) => (i.id === id ? { ...i, done: !i.done } : i)));
+  const toggleDone = async (id) => {
+    try {
+      const target = items.find(i => i.id === id);
+      const updated = await apiToggleItem(listId, id, !target?.done);
+      setItems((cur) => cur.map((i) => (i.id === id ? { ...i, done: !!updated.isCompleted } : i)));
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const handleAddItem = (newItem) => {
-    setItems([...items, { 
-      id: Date.now(), 
-      ...newItem, 
-      done: false 
-    }]);
-    setShowModal(false);
+  const handleAddItem = async (newItem) => {
+    try {
+      const created = await apiAddItem(listId, { name: newItem.name, quantity: newItem.quantity });
+      setItems([...items, { id: created.id, name: created.title, quantity: created.quantity, done: !!created.isCompleted }]);
+      setShowModal(false);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleRenameList = () => {

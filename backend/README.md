@@ -49,6 +49,3 @@ The server will run on `http://localhost:5000`
 - `POST /api/lists/:listId/members` - Add member to list
 - `DELETE /api/lists/:listId/members/:memberId` - Remove member from list
 
-## Data Storage
-
-Currently uses in-memory storage. Data will be lost on server restart. Replace with a database (MongoDB, PostgreSQL, etc.) for persistence.
