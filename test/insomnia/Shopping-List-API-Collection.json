@@ -1,0 +1,341 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-01-04T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_list_all",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists",
+      "name": "List - Get All Lists",
+      "description": "Happy path: Get all shopping lists",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1704326400000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_list_archived",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists?archived=true",
+      "name": "List - Get Archived Lists",
+      "description": "Alternative: Get only archived lists",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "archived",
+          "value": "true",
+          "disabled": false
+        }
+      ],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1704326399000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_single",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists/{{ _.list_id }}",
+      "name": "Get - Get Single List",
+      "description": "Happy path: Get a single shopping list by ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1704326398000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_notfound",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists/000000000000000000000000",
+      "name": "Get - Get Non-existent List (404)",
+      "description": "Alternative: Try to get a list that doesn't exist",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1704326397000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_list",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists",
+      "name": "Create - Create New List",
+      "description": "Happy path: Create a new shopping list",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"{{ _.list_name }}\",\n  \"ownerId\": \"{{ _.owner_id }}\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1704326396000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_invalid",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists",
+      "name": "Create - Create Without Name (400)",
+      "description": "Alternative: Try to create list without required name field",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"ownerId\": \"{{ _.owner_id }}\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1704326395000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_list",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists/{{ _.list_id }}",
+      "name": "Delete - Delete List",
+      "description": "Happy path: Delete a shopping list (owner only)",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "x-user-id",
+          "value": "{{ _.owner_id }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1704326394000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_unauthorized",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists/{{ _.list_id }}",
+      "name": "Delete - Unauthorized Delete (403)",
+      "description": "Alternative: Try to delete list as non-owner",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "x-user-id",
+          "value": "wrong-user"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1704326393000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_archive",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists/{{ _.list_id }}/archive",
+      "name": "Update - Archive List",
+      "description": "Happy path: Archive a shopping list",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"archived\": true\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "x-user-id",
+          "value": "{{ _.owner_id }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1704326392000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_unarchive",
+      "parentId": "fld_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "url": "{{ _.base_url }}/api/lists/{{ _.list_id }}/archive",
+      "name": "Update - Unarchive List",
+      "description": "Alternative: Unarchive a shopping list",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"archived\": false\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "x-user-id",
+          "value": "{{ _.owner_id }}"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1704326391000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_shopping_list",
+      "parentId": "wrk_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "name": "Shopping List Endpoints",
+      "description": "All shopping list API endpoints with happy path and alternative scenarios",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1704326400000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_shopping_list",
+      "parentId": null,
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "name": "Shopping List API",
+      "description": "API for managing shopping lists with MongoDB",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_shopping_list",
+      "modified": 1704326400000,
+      "created": 1704326400000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:5000",
+        "owner_id": "user123",
+        "list_id": "",
+        "list_name": "Test Shopping List"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "owner_id",
+          "list_id",
+          "list_name"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1704326400000,
+      "_type": "environment"
+    }
+  ]
+}

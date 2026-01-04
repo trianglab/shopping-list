@@ -4,7 +4,7 @@ const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.NODE_ENV === 'test' ? 0 : (process.env.PORT || 5000);
 
 // Middleware
 app.use(cors());
@@ -191,14 +191,25 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start server after connecting to DB
-connectDb()
-  .then(() => {
-    app.listen(PORT, () => {
+// Export for testing or start server
+async function startServer() {
+  await connectDb();
+  return {
+    app,
+    server: app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => {
+    }),
+    db,
+    listsCol
+  };
+}
+
+// Only start if not being required as a module (for testing)
+if (require.main === module) {
+  startServer().catch((err) => {
     console.error('Failed to start server due to DB connection error:', err);
     process.exit(1);
   });
+}
+
+module.exports = startServer;
